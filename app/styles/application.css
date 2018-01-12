@@ -1,0 +1,62 @@
+body {
+  background: #2c539e; /* Old browsers */
+  background: -moz-linear-gradient(top, #2c539e 0%, #2c539e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #2c539e 0%,#2c539e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #2c539e 0%,#2c539e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c539e', endColorstr='#2c539e',GradientType=0 ); /* IE6-9 */
+  min-height: 100vh;
+
+  font-family: 'Montserrat', sans-serif;
+}
+
+p, a, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.uk-navbar {
+  background: white;
+}
+
+input {
+  color: white !important;
+}
+
+.uk-alert-transparent {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.uk-badge a,
+.uk-badge a:hover {
+  color: inherit;
+}
+
+.code {
+  display: block;
+  font-family: Consolas, Monaco, monospace;
+  color: white !important;
+  font-size: 1.2em;
+}
+
+.uk-badge.network-badge {
+  background: #7EB954;
+  color: white;
+}
+
+a.text-primary {
+  color: #8CB661 !important;
+}
+
+.uk-form-icon-clickable {
+  pointer-events:auto !important;
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+}
+
+.uk-form-icon-clickable:hover {
+  color: white;
+}
+
+.copy-field {
+  width: 100%;
+}
