@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Grid} from 'react-uikit3';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import NumberFormat from 'react-number-format';
 
 export default class Create extends React.Component {
 
@@ -46,7 +47,9 @@ export default class Create extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    var data = this.state.data
+    data[event.target.name] = event.target.value
+    this.setState(data)
   }
 
   generateURL(e) {
@@ -77,6 +80,30 @@ export default class Create extends React.Component {
           <form onChange={this.handleChange} onSubmit={this.generateURL} method="POST">
               <fieldset className="uk-fieldset">
 
+                  <h3>Form Page Info</h3>
+
+                  <div className="uk-margin-bottom">
+                      <input className="uk-input" type="text" placeholder="Title" name="title" value={this.state.data.title} />
+                  </div>
+
+                  <div className="uk-margin-bottom">
+                      <input className="uk-input" type="text" placeholder="Logo URL" name="logoUrl" value={this.state.data.logoUrl} />
+                  </div>
+
+                  <div className="uk-margin-bottom">
+                      <input className="uk-input" type="text" placeholder="Message" name="message" value={this.state.data.message} />
+                  </div>
+
+                  <div className="uk-margin-bottom">
+                      <input className="uk-input" type="text" placeholder="Company" name="company" value={this.state.data.company} />
+                  </div>
+
+                  <div className="uk-margin-bottom">
+                      <input className="uk-input" type="text" placeholder="http://.." name="companyUrl" value={this.state.data.companyUrl} />
+                  </div>
+
+                  <h3>Asset Info</h3>
+
                   <Grid className="uk-button-group uk-margin-bottom uk-child-width-1-2@m">
                     <div>
                       <a className={ 'uk-button uk-width-1-1 ' + (!this.state.data.testnet ? 'uk-button-default' : '')} onClick={() => this.setTestnet(false)}>Public</a>
@@ -85,14 +112,6 @@ export default class Create extends React.Component {
                       <a className={ 'uk-button uk-width-1-1 ' + (this.state.data.testnet ? 'uk-button-default' : '')} onClick={() => this.setTestnet(true)}>Testnet</a>
                     </div>
                   </Grid>
-
-                  <div className="uk-margin-bottom">
-                      <input className="uk-input" type="text" placeholder="Title" name="title" value={this.state.data.title} />
-                  </div>
-
-                  <div className="uk-margin-bottom">
-                      <input className="uk-input" type="text" placeholder="Message" name="message" value={this.state.data.message} />
-                  </div>
 
                   <div className="uk-margin-bottom">
                       <input className="uk-input" type="text" placeholder="Account" name="account" value={this.state.data.account} />
@@ -113,11 +132,7 @@ export default class Create extends React.Component {
                   </div>
 
                   <div className="uk-margin-bottom">
-                      <input className="uk-input" type="text" placeholder="Trust Amount" name="trustAmount" value={this.state.data.trustAmount} />
-                  </div>
-
-                  <div className="uk-margin-bottom">
-                      <input className="uk-input" type="text" placeholder="Logo URL" name="logoUrl" value={this.state.data.logoUrl} />
+                      <NumberFormat thousandSeparator={true} className="uk-input" type="text" placeholder="Trust Amount" name="trustAmount" value={this.state.data.trustAmount} />
                   </div>
 
                   {/* <div className="uk-margin">
@@ -152,14 +167,16 @@ export default class Create extends React.Component {
               </fieldset>
           </form>
 
-          <div className="uk-margin">
-            <div className="uk-inline copy-field">
-                <CopyToClipboard onCopy={this.onCopy} text={this.state.link} className="uk-form-icon uk-form-icon-flip uk-form-icon-clickable" >
-                  <span><i className="material-icons">&#xE14D;</i></span>
-                </CopyToClipboard>
-                <input className="uk-input uk-width-1-1" type="text" placeholder="Your unique URL" value={this.state.link} disabled />
+          { this.state.link && (
+            <div className="uk-margin">
+              <div className="uk-inline copy-field">
+                  <CopyToClipboard onCopy={this.onCopy} text={this.state.link} className="uk-form-icon uk-form-icon-flip uk-form-icon-clickable" >
+                    <span><i className="material-icons">&#xE14D;</i></span>
+                  </CopyToClipboard>
+                  <input className="uk-input uk-width-1-1" type="text" placeholder="Your unique URL" value={this.state.link} disabled />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* <div className="uk-margin uk-margin-top">
             <Grid className="uk-alert-transparent uk-padding-small">

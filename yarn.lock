@@ -2020,6 +2020,16 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
+js-xdr@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/js-xdr/-/js-xdr-1.0.0.tgz#91fad1c94b6d3300228e717c135e6c196fa2bcee"
+  dependencies:
+    babel-runtime "^4.7.16"
+    cursor "^0.1.5"
+    lodash "^3.5.0"
+    long "^2.2.3"
+    sequencify "0.0.7"
+
 js-xdr@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/js-xdr/-/js-xdr-1.0.1.tgz#8255072659f237a43b37bced5d87815ecb4d753f"
@@ -2495,7 +2505,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -2607,6 +2617,12 @@ react-dom@^15.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react-number-format@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-3.1.3.tgz#05faafd4195a80181b94d80591ddb3b736584432"
+  dependencies:
+    prop-types "^15.6.0"
 
 react-router-dom@^4.2.2:
   version "4.2.2"
