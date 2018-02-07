@@ -276,7 +276,7 @@ var Home = function Home() {
               'Stellar'
             )
           ),
-          ' Trust generator app. Issuers quickly generate their custom token form (no Issuer private key needed). Issuers then share the unique URL with their prospective customers who sign the trust from for the new token.'
+          ' Trust generator app. Issuers quickly generate their custom token form (no Issuer private key needed). Issuers then share the unique URL with their users who simply sign the trust form.'
         ),
         _react2.default.createElement(
           'p',
@@ -340,6 +340,7 @@ var Create = function (_React$Component) {
         testnet: false,
         tokenType: 'ALPHA4',
         tokenCode: '',
+        trustAmount: '',
         copied: false
       }
     };
@@ -551,7 +552,7 @@ var Create = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'uk-margin-bottom' },
-                _react2.default.createElement(_reactNumberFormat2.default, { thousandSeparator: true, className: 'uk-input', type: 'text', placeholder: 'Trust Amount', name: 'trustAmount', value: this.state.data.trustAmount })
+                _react2.default.createElement(_reactNumberFormat2.default, { thousandSeparator: true, className: 'uk-input', type: 'text', placeholder: 'Trust Amount (leave blank for default max)', name: 'trustAmount', value: this.state.data.trustAmount })
               ),
               _react2.default.createElement(
                 'div',
