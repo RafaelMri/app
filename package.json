@@ -11,6 +11,7 @@
     "push": "git subtree push --prefix public origin gh-pages"
   },
   "dependencies": {
+    "bignumber.js": "^6.0.0",
     "react": "^15.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^15.4",

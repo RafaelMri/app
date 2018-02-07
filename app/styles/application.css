@@ -35,7 +35,7 @@ input {
   display: block;
   font-family: Consolas, Monaco, monospace;
   color: white !important;
-  font-size: 1.2em;
+  font-size: 1.2em;hero
 }
 
 .uk-badge.network-badge {
@@ -59,4 +59,26 @@ a.text-primary {
 
 .copy-field {
   width: 100%;
+}
+
+.hero-image {
+  background-image: url(/images/trust.jpg);
+  background-position: center center;
+  background-size: cover;
+  min-height: calc(100vh - 80px)
+}
+
+.hero-image .uk-light {
+  color: white !important
+}
+
+h6.donate {
+  color: rgba(255,255,255,0.6) !important;
+}
+h6.donate b {
+  color: white !important;
+}
+
+.uk-button[disabled] {
+  opacity: 0.5
 }

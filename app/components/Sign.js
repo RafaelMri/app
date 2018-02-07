@@ -4,6 +4,10 @@ import {Grid} from 'react-uikit3';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {NumberFormat} from 'react-number-format';
 import {Link} from 'react-router-dom';
+import BigNumber from 'bignumber.js';
+
+const base_reserve = 0.5
+      , min_reserve = base_reserve * 2
 
 export default class Sign extends React.Component {
 
@@ -12,7 +16,11 @@ export default class Sign extends React.Component {
     super(props)
 
     this.state = {
-      data: {}
+      data: {
+        agree: false
+      },
+      c: true,
+      accountConfirmed: true
     }
 
   }
@@ -28,16 +36,14 @@ export default class Sign extends React.Component {
   }
 
   handleChange(event) {
+    console.log(event.target.value)
     var data = this.state.data
     data[event.target.name] = event.target.value
-    this.setState({ data  })
+    this.setState(data )
   }
 
-  handleSubmit(event) {
-
+  getServer() {
     var server = null
-    var trustAmount = this.state.data.trustAmount.replace(/\,/g,'')  || ''
-
     if(this.state.data.testnet) {
       StellarSdk.Network.useTestNetwork();
       server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
@@ -46,6 +52,73 @@ export default class Sign extends React.Component {
       StellarSdk.Network.usePublicNetwork()
       server = new StellarSdk.Server('https://horizon.stellar.org');
     }
+    return server
+  }
+
+  handleStellarAccountBlur() {
+
+    const server = this.getServer()
+
+    if(!!this.state.data.signerAccountPrivateKey) {
+
+      let receiverKeys
+      var self = this
+
+      try {
+      receiverKeys = StellarSdk.Keypair
+            .fromSecret(this.state.data.signerAccountPrivateKey)
+      }
+      catch(e) {
+        self.setState({ 'accountNote': 'Error loading account / Account does not exist'})
+        return false
+      }
+
+      // server.offers().forAccount(receiverKeys.publicKey()).then(function(r) {
+      //   console.log(r);
+      // })
+      // server.operations().forAccount(receiverKeys.publicKey()).then(function(r) {
+      //   console.log(r);
+      // })
+      // server.ledgers().then(function(r) {
+      //   console.log(r);
+      // })
+
+      server.loadAccount(receiverKeys.publicKey())
+        .then(function(receiver) {
+
+          let entriesTrustlines = receiver.balances.length - 1
+          let entriesOffers = Object.keys(receiver.offers).length
+          let entriesOthers = receiver.subentry_count - entriesTrustlines - entriesOffers
+
+          const min_fee = new BigNumber(min_reserve + (entriesTrustlines + entriesOffers + entriesOthers) * base_reserve).toFixed(2);
+
+          receiver.balances.forEach(function(asset) {
+            if(asset.asset_type=="native") {
+              const balance = new BigNumber(asset.balance).toFixed(2)
+
+              if(balance > min_fee) {
+                self.setState({ 'accountNote': 'Good to go - you need ' + min_fee + ' XLM and you have ' + balance + " XLM" });
+                self.setState({ 'accountConfirmed': true });
+              }
+              else {
+                self.setState({ 'accountNote': 'Error - you need ' + min_fee + ' XLM to trust this token. You only have ' + balance + " XLM. You need " + new BigNumber(min_fee - balance).toFixed(2) + " XLM more." });
+              }
+            }
+          });
+
+        }).catch(function (err) {
+          console.log(err)
+          self.setState({ 'accountNote': 'Account does not exist.' });
+        });
+    }
+
+  }
+
+
+  handleSubmit(event) {
+
+    const server = this.getServer()
+    var trustAmount = this.state.data.trustAmount.replace(/\,/g,'')  || ''
 
     // Keys for accounts to issue and receive the new asset
     var issuerKey = this.state.data.account
@@ -85,18 +158,20 @@ export default class Sign extends React.Component {
 
           <h2><span className="uk-badge uk-padding-small network-badge">{this.state.data.testnet ? 'Testnet' : 'Public Net'}</span> Trust new token <strong>{this.state.data.tokenCode}</strong></h2>
 
+          { !!this.state.data.title && (<h3><b>{this.state.data.title}</b></h3>) }
+
           <form onSubmit={this.handleSubmit.bind(this)} method="POST">
             <fieldset className="uk-fieldset">
 
-              <h3>Overview</h3>
+              <h4>Overview</h4>
 
-              <img src={this.state.data.logoUrl} />
+              { !!this.state.data.logoUrl && (<img src={this.state.data.logoUrl} />)}
 
-              <div className="uk-margin uk-margin-bottom-large">
+              { !!this.state.data.message && (<div className="uk-margin uk-margin-bottom-large">
                 <p>{this.state.data.message}</p>
-              </div>
+              </div>)}
 
-              <h3>Token Information</h3>
+              <h4>Token Information</h4>
 
               <Grid className="uk-grid-divider uk-child-width-expand@s uk-margin-bottom">
                 <div className="uk-text-right">
@@ -105,7 +180,7 @@ export default class Sign extends React.Component {
                 </div>
                 <div>
                   <label>Trust Limit</label>
-                  <h3 className="uk-margin-remove"><strong>{this.state.data.trustAmount}</strong></h3>
+                  <h3 className="uk-margin-remove"><strong>{this.state.data.trustAmount || 'MAX'}</strong></h3>
                 </div>
               </Grid>
 
@@ -114,36 +189,26 @@ export default class Sign extends React.Component {
               <div className="uk-margin-bottom uk-text-center">
                 <label>Issuing Account</label>
                 <br/>
-                <span className="code uk-margin-top uk-width-1-1">{this.state.data.stellarAccount}</span>
+                <span className="code uk-margin-top uk-width-1-1">{this.state.data.account}</span>
               </div>
-
-              {/* <div className="uk-margin">
-
-                <input className="uk-input uk-width-1-1" type="text" placeholder="Token Code" name="tokenCode" value={this.state.tokenCode} />
-              <Grid className="uk-grid-small uk-margin-bottom">
-                <div className="uk-width-1-3">
-
-                </div>
-                <div className="uk-width-2-3">
-
-                </div>
-              </Grid> */}
 
               <h3>Paste Your <u>Private Key</u></h3>
 
               <div className="uk-margin-bottom">
-                  <input className="uk-input code" type="text" placeholder="GC2BKL..." name="signerAccountPrivateKey" value={this.state.data.signerAccountPrivateKey} onChange={this.handleChange.bind(this)} />
+                  <input className="uk-input code" type="text" placeholder="GC2BKL..." name="signerAccountPrivateKey" value={this.state.data.signerAccountPrivateKey} onChange={this.handleChange.bind(this)} onBlur={this.handleStellarAccountBlur.bind(this)} />
               </div>
 
-              <h5><strong>Security Information:</strong> <em>We never store your Private Key - anywhere. It is used in your browser to sign the transaction with the <a href="http://" className="text-primary">Stellar-JS-SDK</a>. Verify code of the sign component <a className="text-primary">here</a>.</em>
+              { this.state.accountNote && (<span>{this.state.accountNote}</span>) }
+
+              <h5><strong>Security Information:</strong> <em>We never store your Private Key - anywhere. It is used in your browser to sign the transaction with the <a href="http://" className="text-primary">Stellar-JS-SDK</a>. Verify code of the signing component <a className="text-primary">here</a>.</em>
               </h5>
 
               <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                 <label><input className="uk-checkbox uk-margin-small-right" type="checkbox" /> I agree to the terms & conditions.</label>
+                 <label><input className="uk-checkbox uk-margin-small-right" type="checkbox" name="agree" value={this.state.data.agree} onChange={this.handleChange.bind(this)} /> I agree to the terms & conditions.</label>
              </div>
 
              <div className="uk-margin-bottom">
-               <button className="uk-button uk-button-primary uk-button-large uk-width-1-1"><b>Assign Trust</b></button>
+               <button className="uk-button uk-button-primary uk-button-large uk-width-1-1" disabled={(this.state.data.agree!='on' || !this.state.accountConfirmed  )}><b>Assign Trust</b></button>
              </div>
 
             </fieldset>

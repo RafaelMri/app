@@ -14,6 +14,7 @@ export default class Create extends React.Component {
       data: {
         testnet: false,
         tokenType: 'ALPHA4',
+        tokenCode: '',
         copied: false
       }
     }
@@ -120,10 +121,10 @@ export default class Create extends React.Component {
 
                   <Grid className="uk-button-group uk-margin-bottom uk-child-width-1-2@m">
                     <div>
-                      <a className={ 'uk-button uk-width-1-1 ' + (this.state.data.tokenType=='ALPHA4' ? 'uk-button-default' : '')} onClick={() => this.setTokenType('ALPHA4')}>Alphanumeric 4</a>
+                      <span className={ 'uk-button uk-width-1-1 ' + (this.state.data.tokenCode.length <5 ? 'uk-button-default' : '')} >Alphanumeric 4</span>
                     </div>
                     <div>
-                      <a className={ 'uk-button uk-width-1-1 ' + (this.state.data.tokenType=='ALPHA12' ? 'uk-button-default' : '')} onClick={() => this.setTokenType('ALPHA12')}>Alphanumeric 12</a>
+                      <span className={ 'uk-button uk-width-1-1 ' + (this.state.data.tokenCode.length >4 ? 'uk-button-default' : '')} >Alphanumeric 12</span>
                     </div>
                   </Grid>
 
