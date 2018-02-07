@@ -15,6 +15,7 @@ export default class Create extends React.Component {
         testnet: false,
         tokenType: 'ALPHA4',
         tokenCode: '',
+        trustAmount: '',
         copied: false
       }
     }
@@ -133,7 +134,7 @@ export default class Create extends React.Component {
                   </div>
 
                   <div className="uk-margin-bottom">
-                      <NumberFormat thousandSeparator={true} className="uk-input" type="text" placeholder="Trust Amount" name="trustAmount" value={this.state.data.trustAmount} />
+                      <NumberFormat thousandSeparator={true} className="uk-input" type="text" placeholder="Trust Amount (leave blank for default max)" name="trustAmount" value={this.state.data.trustAmount} />
                   </div>
 
                   {/* <div className="uk-margin">

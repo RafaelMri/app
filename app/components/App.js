@@ -42,7 +42,7 @@ const Home = () => (
     <div class="uk-position-center uk-overlay">
       <div className='uk-width-2-3@m uk-padding uk-light uk-text-center uk-position-center'>
         <h2>About <strong>Trustlane</strong>.me</h2>
-        <p>Simple <u><a href="http://stellar.org" target="_blank">Stellar</a></u> Trust generator app. Issuers quickly generate their custom token form (no Issuer private key needed). Issuers then share the unique URL with their prospective customers who sign the trust from for the new token.</p>
+        <p>Simple <u><a href="http://stellar.org" target="_blank">Stellar</a></u> Trust generator app. Issuers quickly generate their custom token form (no Issuer private key needed). Issuers then share the unique URL with their users who simply sign the trust form.</p>
 
         <p>
           <Link to="/create" className="uk-button uk-button-primary uk-margin-small-right">Create a Trust Form</Link>
