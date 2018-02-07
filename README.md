@@ -30,3 +30,4 @@ Built with a modern JS skeleton with React for [Brunch](http://brunch.io).
 - [x] Routing for static pages - fixed (404.html)
 - [x] Nice hero unit and explainer
 - [x] Check if minimum balance is met before signing
+- [ ] Show confirmation & link to account API endpoint for verification
