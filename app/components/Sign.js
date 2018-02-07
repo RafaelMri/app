@@ -200,7 +200,7 @@ export default class Sign extends React.Component {
 
               { this.state.accountNote && (<span>{this.state.accountNote}</span>) }
 
-              <h5><strong>Security Information:</strong> <em>We never store your Private Key - anywhere. It is used in your browser to sign the transaction with the <a href="http://" className="text-primary">Stellar-JS-SDK</a>. Verify code of the signing component <a className="text-primary">here</a>.</em>
+              <h5><strong>Security Information:</strong> <em>We never store your Private Key - anywhere. It is used in your browser to sign the transaction with the <a href="https://github.com/stellar/js-stellar-sdk" className="text-primary" target="_blank">Stellar-JS-SDK</a>. Verify code of the signing component <a className="text-primary" href="https://github.com/trustlane/app/blob/master/app/components/Sign.js" target="_blank">here</a>.</em>
               </h5>
 
               <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
